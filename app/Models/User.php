@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array<int, string>
+     */
+    //protected $with = ['clients'];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -43,5 +51,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the clients for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function clients(): HasMany
+    {
+        return $this->hasMany(Client::class);
     }
 }
