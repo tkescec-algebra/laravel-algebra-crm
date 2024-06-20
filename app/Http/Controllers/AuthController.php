@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -34,6 +35,26 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        dd($request);
+        $data = array_merge(
+            $request->validated(),
+            ['email_verified_at' => now()]
+        );
+
+        $user = User::create($data);
+
+        auth()->login($user);
+
+        return redirect()->intended('dashboard');
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+
+        request()->session()->invalidate();
+
+        request()->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

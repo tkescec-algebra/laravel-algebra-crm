@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.app', ['navbar' => false])
 
 @section('title')
     Register
@@ -12,8 +12,12 @@
                 <form action="{{ route('register') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="exampleInputName" class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control" id="exampleInputName">
+                        <label for="exampleInputFName" class="form-label">First Name</label>
+                        <input type="text" name="first_name" class="form-control" id="exampleInputFName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputLName" class="form-label">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" id="exampleInputLName">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -25,7 +29,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
-                        <input type="password" name="confirmed_password" class="form-control" id="exampleInputPassword2">
+                        <input type="password" name="password_confirmation" class="form-control" id="exampleInputPassword2">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
