@@ -13,7 +13,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients = Client::all();
+        return view('clients.index', compact('clients'));
     }
 
     /**
@@ -21,7 +22,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('clients.create');
     }
 
     /**
@@ -37,7 +38,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+        return view('clients.show', compact('client'));
     }
 
     /**
@@ -45,7 +46,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('clients.edit', compact('client'));
     }
 
     /**
@@ -61,6 +62,10 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
+
+        return redirect()
+            ->route('clients.index')
+            ->with('success', 'Client deleted successfully.');
     }
 }
