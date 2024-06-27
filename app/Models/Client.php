@@ -20,6 +20,7 @@ class Client extends Model
         'last_name',
         'email',
         'phone',
+        'image',
         'user_id',
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Image;
 use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -30,7 +31,18 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        $validateData = $request->validated();
+        $validateData['user_id'] = auth()->id();
+
+        if ($request->hasFile('image')){
+            $validateData['image'] = Image::upload($request->file('image'), 'clients');
+        }
+
+        Client::create($validateData);
+
+        return redirect()
+            ->route('clients.index')
+            ->with('success', 'Client created successfully.');
     }
 
     /**
