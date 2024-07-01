@@ -66,7 +66,17 @@ class ClientController extends Controller
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
-        //
+        $validateData = $request->validated();
+
+        if ($request->hasFile('image')){
+            $validateData['image'] = Image::upload($request->file('image'), 'clients', $client->image);
+        }
+
+        $client->update($validateData);
+
+        return redirect()
+            ->route('clients.show', $client->id)
+            ->with('success', 'Client updated successfully.');
     }
 
     /**

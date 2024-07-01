@@ -31,7 +31,7 @@
                 <label for="image" class="form-label">Client Image</label>
                 <input type="file" class="form-control" id="image" name="image">
                 @if($client->image)
-                    <img src="{{ $client->image }}" alt="Client Image" class="img-thumbnail mt-2" width="150">
+                    <img src="{{ \App\Helpers\Image::get($client->image) }}" alt="Client Image" class="img-thumbnail mt-2" width="150">
                 @endif
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
