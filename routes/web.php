@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\NavigationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,5 +35,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('clients', ClientController::class);
+
 });
+
+Route::resource('navigations', NavigationController::class);
 
