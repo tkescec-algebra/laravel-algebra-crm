@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +23,8 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'email_verified_at'
+        'email_verified_at',
+        'role_id'
     ];
 
     /**
@@ -63,5 +65,20 @@ class User extends Authenticatable
     public function clients(): HasMany
     {
         return $this->hasMany(Client::class);
+    }
+
+    /**
+     * Get the role that owns the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->name === 'admin';
     }
 }

@@ -1,6 +1,5 @@
 @inject('nav', 'App\Helpers\Navigation' );
 
-@dump($nav->getLinks());
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Algebra CRM</a>
@@ -13,14 +12,21 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="/">Home</a>
                 </li>
-                @auth
+                @admin()
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is('clients.*') ? 'active' : '' }}" href="{{ route('clients.index') }}">Clients</a>
                     </li>
-                @endauth
+                @else
+                    @foreach ($nav->getLinks() as $link)
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::is($link->url) ? 'active' : '' }}"
+                                href="{{ $link->url }}">{{ $link->name }}</a>
+                        </li>
+                    @endforeach
+                @endadmin
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0 pe-5">
                 @auth
