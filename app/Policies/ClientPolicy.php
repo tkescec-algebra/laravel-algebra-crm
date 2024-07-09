@@ -4,16 +4,27 @@ namespace App\Policies;
 
 use App\Models\Client;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ClientPolicy
 {
+
+    /**
+    * Perform pre-authorization checks.
+    */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        return null;
+    }
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -21,7 +32,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client): bool
     {
-        //
+        return $user->id === $client->user_id;
     }
 
     /**
@@ -29,7 +40,7 @@ class ClientPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +48,7 @@ class ClientPolicy
      */
     public function update(User $user, Client $client): bool
     {
-        //
+        return $user->id === $client->user_id;
     }
 
     /**
@@ -45,7 +56,7 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client): bool
     {
-        //
+        return $user->id === $client->user_id;
     }
 
     /**
@@ -53,7 +64,7 @@ class ClientPolicy
      */
     public function restore(User $user, Client $client): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +72,6 @@ class ClientPolicy
      */
     public function forceDelete(User $user, Client $client): bool
     {
-        //
+        return false;
     }
 }

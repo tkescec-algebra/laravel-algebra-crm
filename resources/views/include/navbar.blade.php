@@ -1,4 +1,4 @@
-@inject('nav', 'App\Helpers\Navigation' );
+@inject('nav', 'App\Helpers\Navigation' )
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -12,12 +12,14 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="/">Home</a>
                 </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('clients.*') ? 'active' : '' }}" href="{{ route('clients.index') }}">Clients</a>
+                    </li>
+                @endauth
                 @admin()
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::is('clients.*') ? 'active' : '' }}" href="{{ route('clients.index') }}">Clients</a>
                     </li>
                 @else
                     @foreach ($nav->getLinks() as $link)

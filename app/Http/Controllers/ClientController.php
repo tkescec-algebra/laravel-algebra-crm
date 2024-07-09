@@ -6,15 +6,22 @@ use App\Helpers\Image;
 use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $clients = Client::all();
+
+        if(Gate::denies('viewAny', Client::class)){
+            $clients = $clients->where('user_id', auth()->id());
+        }
+
         return view('clients.index', compact('clients'));
     }
 
@@ -50,6 +57,8 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
+        Gate::authorize('view', $client);
+
         return view('clients.show', compact('client'));
     }
 
@@ -58,6 +67,8 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
+        Gate::authorize('update', $client);
+
         return view('clients.edit', compact('client'));
     }
 
@@ -66,6 +77,8 @@ class ClientController extends Controller
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
+        Gate::authorize('update', $client);
+
         $validateData = $request->validated();
 
         if ($request->hasFile('image')){
@@ -84,6 +97,8 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
+        Gate::authorize('delete', $client);
+
         $client->delete();
 
         return redirect()
