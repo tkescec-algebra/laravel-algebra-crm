@@ -41,12 +41,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      -name: Set up SSH
+      - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      -name: Add serve known_hosts
+      - name: Add serve known_hosts
         run: |
           ssh-keyscan 46.101.102.137 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
